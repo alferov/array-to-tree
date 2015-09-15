@@ -1,0 +1,22 @@
+{
+  "name": "array-to-tree",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "array",
+    "list",
+    "pointer",
+    "parent",
+    "tree"
+  ],
+  "devDependencies": {
+    "eslint": "^1.4.1",
+    "mocha": "^2.3.0"
+  },
+  "author": "Philipp Alferov <philipp.alferov@gmail.com>",
+  "license": "MIT"
+}
