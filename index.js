@@ -32,12 +32,8 @@ function orderByParents(list) {
   return parents;
 }
 
-function clone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
-
 module.exports = function(obj) {
-  var cloned = clone(obj);
+  var cloned = obj.slice();
   var ordered = orderByParents(cloned);
   return createTree(ordered, ordered[0]);
 };
