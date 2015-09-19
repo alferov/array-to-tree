@@ -1,4 +1,5 @@
 'use strict';
+var util = require('util');
 
 function createTree(list, rootNodes) {
   var tree = [];
@@ -33,6 +34,9 @@ function orderByParents(list) {
 }
 
 module.exports = function(obj) {
+  if (!util.isArray(obj)) {
+    throw new Error('Expected an object but got an invalid argument');
+  }
   var cloned = obj.slice();
   var ordered = orderByParents(cloned);
   return createTree(ordered, ordered[0]);

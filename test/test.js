@@ -9,7 +9,7 @@ var current;
 describe('parent pointer array to tree', function() {
   describe('expected behavior', function() {
 
-    beforeEach(function() {
+    before(function() {
       current = toTree(initial);
     });
 
@@ -38,6 +38,18 @@ describe('parent pointer array to tree', function() {
 
     it('should return an expected value', function() {
       expect(current).to.be.deep.equal(expected);
+    });
+
+  });
+
+  describe('with incorrect arguments', function() {
+    it('should return an empty array if the empty array passed', function() {
+      expect(toTree([])).to.be.deep.equal([]);
+    });
+
+    it('should throw an error if wrong arguments passed', function() {
+      expect(toTree.bind(null, 'string')).to.throw(/invalid argument/);
+      expect(toTree.bind(null, {})).to.throw(/invalid argument/);
     });
 
   })
