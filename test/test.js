@@ -10,7 +10,7 @@ describe('parent pointer array to tree', function() {
   describe('expected behavior', function() {
 
     before(function() {
-      current = toTree(initial);
+      current = toTree({ data: initial });
     });
 
     it('should not modify passed object', function() {
@@ -44,12 +44,12 @@ describe('parent pointer array to tree', function() {
 
   describe('with incorrect arguments', function() {
     it('should return an empty array if the empty array passed', function() {
-      expect(toTree([])).to.be.deep.equal([]);
+      expect(toTree({ data: [] })).to.be.deep.equal([]);
     });
 
     it('should throw an error if wrong arguments passed', function() {
-      expect(toTree.bind(null, 'string')).to.throw(/invalid argument/);
-      expect(toTree.bind(null, {})).to.throw(/invalid argument/);
+      expect(toTree.bind(null, { data: 'string' })).to.throw(/invalid argument/);
+      expect(toTree.bind(null, { data: {} })).to.throw(/invalid argument/);
     });
 
   })

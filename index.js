@@ -33,11 +33,15 @@ function orderByParents(list) {
   return parents;
 }
 
-module.exports = function(obj) {
-  if (!util.isArray(obj)) {
+module.exports = function(options) {
+  var config = util._extend({ parentProperty: 'parent_id', data: [] }, options);
+  var data = config.data;
+
+  if (!util.isArray(data)) {
     throw new Error('Expected an object but got an invalid argument');
   }
-  var cloned = obj.slice();
+
+  var cloned = data.slice();
   var ordered = orderByParents(cloned);
   return createTree(ordered, ordered[0]);
 };
