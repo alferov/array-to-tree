@@ -3,11 +3,13 @@ var chai = require('chai');
 var expect = chai.expect;
 var toTree = require('../index.js');
 var expected = require('./fixtures/expected.fixture.js');
+var customExpected = require('./fixtures/expected-custom.fixture.js');
+var customInitial = require('./fixtures/initial-custom.fixture.js');
 var initial = require('./fixtures/initial.fixture.js');
 var current;
 
-describe('parent pointer array to tree', function() {
-  describe('expected behavior', function() {
+describe('array-to-tree', function() {
+  describe('with valid arguments', function() {
 
     before(function() {
       current = toTree({ data: initial });
@@ -39,18 +41,45 @@ describe('parent pointer array to tree', function() {
     it('should return an expected value', function() {
       expect(current).to.be.deep.equal(expected);
     });
-
   });
 
-  describe('with incorrect arguments', function() {
+  describe('with invalid arguments', function() {
     it('should return an empty array if the empty array passed', function() {
       expect(toTree({ data: [] })).to.be.deep.equal([]);
     });
 
     it('should throw an error if wrong arguments passed', function() {
-      expect(toTree.bind(null, { data: 'string' })).to.throw(/invalid argument/);
-      expect(toTree.bind(null, { data: {} })).to.throw(/invalid argument/);
+      expect(toTree.bind(null, { data: 'string' }))
+        .to.throw(/invalid argument/);
+
+      expect(toTree.bind(null, { data: {} }))
+        .to.throw(/invalid argument/);
+    });
+
+    it('should return the same array if there is no pointer to parent', function() {
+
+      var modified = initial.map(function(item) {
+        delete item.parent_id;
+        return item;
+      });
+
+      expect(toTree({ data: modified }))
+        .to.be.deep.equal(modified);
     });
 
   })
+
+  describe('with different options', function() {
+    it('should work with custom link to parent', function() {
+
+      var current = toTree({
+        data: customInitial,
+        parentProperty: 'parent',
+        customID: '_id'
+      });
+
+      expect(current)
+        .to.be.deep.equal(customExpected);
+    });
+  });
 });

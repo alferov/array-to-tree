@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 
-function createTree(list, rootNodes) {
+function createTree(list, rootNodes, customID) {
   var tree = [];
 
   for (var prop in rootNodes) {
@@ -10,9 +10,10 @@ function createTree(list, rootNodes) {
     }
 
     var node = rootNodes[prop];
+    var listItem = list[node[customID]];
 
-    if (list[node.id]) {
-      node.children = createTree(list, list[node.id]);
+    if (listItem) {
+      node.children = createTree(list, listItem, customID);
     }
 
     tree.push(node);
@@ -21,11 +22,12 @@ function createTree(list, rootNodes) {
   return tree;
 }
 
-function orderByParents(list) {
+function orderByParents(list, config) {
   var parents = {};
+  var parentProperty = config.parentProperty;
 
   list.forEach(function(item) {
-    var parentID = item.parent_id || 0;
+    var parentID = item[parentProperty] || 0;
     parents[parentID] = parents[parentID] || [];
     parents[parentID].push(item);
   });
@@ -34,7 +36,12 @@ function orderByParents(list) {
 }
 
 module.exports = function(options) {
-  var config = util._extend({ parentProperty: 'parent_id', data: [] }, options);
+  var config = util._extend({
+      parentProperty: 'parent_id',
+      data: [],
+      customID: 'id'
+    }, options);
+
   var data = config.data;
 
   if (!util.isArray(data)) {
@@ -42,6 +49,6 @@ module.exports = function(options) {
   }
 
   var cloned = data.slice();
-  var ordered = orderByParents(cloned);
-  return createTree(ordered, ordered[0]);
+  var ordered = orderByParents(cloned, config);
+  return createTree(ordered, ordered[0], config.customID);
 };
