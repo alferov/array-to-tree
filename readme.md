@@ -10,7 +10,7 @@ Solves a problem with conversion of retrieved from a database sets of data to a 
 $ npm install --save array-to-tree
 ```
 
-## Usage
+## Basic Usage
 
 ```js
 var arrayToTree = require('array-to-tree');
@@ -33,7 +33,7 @@ var navigation = [{
   parent_id: null
 }];
 
-var navigationTree = arrayToTree(navigation);
+var navigationTree = arrayToTree({ data: navigation });
 
 /*
  * Output:
