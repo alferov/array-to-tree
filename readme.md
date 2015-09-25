@@ -33,8 +33,6 @@ var navigation = [{
   parent_id: null
 }];
 
-var navigationTree = arrayToTree({ data: navigation });
-
 /*
  * Output:
  * Portfolio
@@ -43,9 +41,23 @@ var navigationTree = arrayToTree({ data: navigation });
  * About Me
  */
 
+var navigationTree = arrayToTree({ data: navigation });
 ```
+
+## Documentation
+
+### `arrayToTree(options)`
+Convert a plain array of nodes (with pointers to parent nodes) to a tree.
+
+#### Params
+**Object** `options`: An object containing the following fields:
+- `parentProperty` (String): A name of a property where a link to a parent node could be found. Default: 'parent_id'
+- `data` (Array): An array of` data
+- `customID` (String): An unique node identifier. Default: 'id'
+
+#### Return
+- **Array**: Result of transformation
 
 ## License
 
-MIT
-[Philipp Alferov](https://github.com/alferov)
+MIT © [Philipp Alferov](https://github.com/alferov)

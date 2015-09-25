@@ -45,7 +45,7 @@ function orderByParents(list, config) {
  *
  *  - `parentProperty` (String): A name of a property where a link to
  *     a parent node could be found. Default: 'parent_id'
- *  - `data` (Array): An array with data
+ *  - `data` (Array): An array of data
  *  - `customID` (String): An unique node identifier. Default: 'id'
  *
  * @return {Array} Result of transformation
