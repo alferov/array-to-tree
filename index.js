@@ -35,7 +35,23 @@ function orderByParents(list, config) {
   return parents;
 }
 
-module.exports = function(options) {
+/**
+ * arrayToTree
+ * Convert a plain array of nodes (with pointers to parent nodes) to a tree
+ *
+ * @name arrayToTree
+ * @function
+ * @param {Object} options An object containing the following fields:
+ *
+ *  - `parentProperty` (String): A name of a property where a link to
+ *     a parent node could be found. Default: 'parent_id'
+ *  - `data` (Array): An array with data
+ *  - `customID` (String): An unique node identifier. Default: 'id'
+ *
+ * @return {Array} Result of transformation
+ */
+
+module.exports = function arrayToTree(options) {
   var config = util._extend({
       parentProperty: 'parent_id',
       data: [],
