@@ -1,4 +1,4 @@
-# array-to-tree
+# array-to-tree [![Build Status](https://travis-ci.org/alferov/array-to-tree.svg?branch=master)](https://travis-ci.org/alferov/array-to-tree)
 
 > Convert a plain array of nodes (with pointers to parent nodes) to a tree.
 
