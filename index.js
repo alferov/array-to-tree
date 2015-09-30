@@ -1,39 +1,45 @@
 'use strict';
 var util = require('util');
 
-function createTree(list, rootNodes, customID) {
+var exists = function(obj, key) {
+  return obj != null && Object.hasOwnProperty.call(obj, key);
+};
+
+var createTree = function(array, rootNodes, customID) {
   var tree = [];
 
-  for (var prop in rootNodes) {
-    if (!rootNodes.hasOwnProperty(prop)) {
-      continue;
+  for (var key in rootNodes) {
+    if (!exists(rootNodes, key)) {
+      continue ;
+    }
+    var parentNode = rootNodes[key];
+    var childNode = array[parentNode[customID]];
+
+    if (childNode) {
+      parentNode.children = createTree(array, childNode, customID);
     }
 
-    var node = rootNodes[prop];
-    var listItem = list[node[customID]];
-
-    if (listItem) {
-      node.children = createTree(list, listItem, customID);
-    }
-
-    tree.push(node);
+    tree.push(parentNode);
   }
 
   return tree;
-}
+};
 
-function orderByParents(list, config) {
+var groupByParents = function(array, options) {
   var parents = {};
-  var parentProperty = config.parentProperty;
+  var parentProperty = options.parentProperty;
 
-  list.forEach(function(item) {
-    var parentID = item[parentProperty] || 0;
-    parents[parentID] = parents[parentID] || [];
-    parents[parentID].push(item);
+  array.forEach(function(item) {
+    var parentID = item[parentProperty] || options.rootID;
+    if (exists(parents, parentID)) {
+      parents[parentID].push(item);
+    } else {
+      parents[parentID] = [item];
+    }
   });
 
   return parents;
-}
+};
 
 /**
  * arrayToTree
@@ -52,19 +58,20 @@ function orderByParents(list, config) {
  */
 
 module.exports = function arrayToTree(options) {
-  var config = util._extend({
-      parentProperty: 'parent_id',
-      data: [],
-      customID: 'id'
-    }, options);
+  options = util._extend({
+    parentProperty: 'parent_id',
+    data: [],
+    customID: 'id',
+    rootID: '0'
+  }, options);
 
-  var data = config.data;
+  var data = options.data;
 
   if (!util.isArray(data)) {
     throw new Error('Expected an object but got an invalid argument');
   }
 
   var cloned = data.slice();
-  var ordered = orderByParents(cloned, config);
-  return createTree(ordered, ordered[0], config.customID);
+  var grouped = groupByParents(cloned, options);
+  return createTree(grouped, grouped[options.rootID], options.customID);
 };
