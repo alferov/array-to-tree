@@ -1,8 +1,18 @@
 'use strict';
-var util = require('util');
 
 var exists = function(obj, key) {
   return obj != null && Object.hasOwnProperty.call(obj, key);
+};
+
+var extend = function(destination, source) {
+  for (var property in source) {
+    destination[property] = source[property];
+  }
+  return destination;
+}
+
+var isArray = Array.isArray || function(obj) {
+  return toString.call(obj) === '[object Array]';
 };
 
 var createTree = function(array, rootNodes, customID) {
@@ -58,7 +68,7 @@ var groupByParents = function(array, options) {
  */
 
 module.exports = function arrayToTree(options) {
-  options = util._extend({
+  options = extend({
     parentProperty: 'parent_id',
     data: [],
     customID: 'id',
@@ -67,7 +77,7 @@ module.exports = function arrayToTree(options) {
 
   var data = options.data;
 
-  if (!util.isArray(data)) {
+  if (!isArray(data)) {
     throw new Error('Expected an object but got an invalid argument');
   }
 
