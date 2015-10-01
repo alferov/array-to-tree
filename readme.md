@@ -10,12 +10,14 @@ Solves a problem with conversion of retrieved from a database sets of data to a 
 $ npm install --save array-to-tree
 ```
 
-## Basic Usage
+## Usage
+
+### Basic
 
 ```js
 var arrayToTree = require('array-to-tree');
 
-var navigation = [{
+var data = [{
   id: 1,
   name: "Portfolio",
   parent_id: null
@@ -33,6 +35,8 @@ var navigation = [{
   parent_id: null
 }];
 
+var tree = arrayToTree({ data: data });
+
 /*
  * Output:
  * Portfolio
@@ -41,10 +45,47 @@ var navigation = [{
  * About Me
  */
 
-var navigationTree = arrayToTree({ data: navigation });
 ```
 
-## Documentation
+### With Custom Attributes
+
+```js
+var arrayToTree = require('array-to-tree');
+
+var data = [{
+  _id: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
+  name: "Portfolio",
+  parent: null
+}, {
+  _id: 'ec666030-7f8f-11e3-ae96-0123456789ab',
+  name: "Web Development",
+  parent: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c'
+}, {
+  _id: 'ec66fc70-7f8f-11e3-ae96-000000000000',
+  name: "Recent Works",
+  parent: 'ec666030-7f8f-11e3-ae96-0123456789ab'
+}, {
+  _id: '32a4fbed-676d-47f9-a321-cb2f267e2918',
+  name: "About Me",
+  parent: null
+}];
+
+var tree = arrayToTree({
+  parentProperty: 'parent',
+  customID: '_id'
+  data: data
+});
+
+/*
+ * Output:
+ * Portfolio
+ *   Web Development
+ *     Recent Works
+ * About Me
+ */
+```
+
+## API
 
 ### `arrayToTree(options)`
 Convert a plain array of nodes (with pointers to parent nodes) to a tree.
