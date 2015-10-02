@@ -11,7 +11,7 @@ var current;
 describe('array-to-tree', function() {
   describe('with valid arguments', function() {
 
-    before(function() {
+    beforeEach(function() {
       current = toTree({ data: initial });
     });
 
@@ -66,13 +66,12 @@ describe('array-to-tree', function() {
       expect(toTree({ data: modified }))
         .to.be.deep.equal(modified);
     });
-
   })
 
   describe('with different options', function() {
-    it('should work with custom link to parent', function() {
+    it('should work with custom parents links', function() {
 
-      var current = toTree({
+      current = toTree({
         data: customInitial,
         parentProperty: 'parent',
         customID: '_id'
