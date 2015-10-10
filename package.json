@@ -7,7 +7,7 @@
     "test": "mocha --reporter nyan",
     "tdd": "npm test -- --watch"
   },
-  "repository": "alferov/array-to-tree",
+  "repository": "alferov/property-exists",
   "keywords": [
     "array",
     "list",
@@ -29,5 +29,10 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "isarray": "0.0.1",
+    "property-exists": "^1.0.1",
+    "shallow-object-extend": "0.0.1"
+  }
 }

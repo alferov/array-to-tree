@@ -1,35 +1,23 @@
 'use strict';
-
-var exists = function(obj, key) {
-  return obj != null && Object.hasOwnProperty.call(obj, key);
-};
-
-var extend = function(destination, source) {
-  for (var property in source) {
-    destination[property] = source[property];
-  }
-  return destination;
-}
-
-var isArray = Array.isArray || function(obj) {
-  return toString.call(obj) === '[object Array]';
-};
+var isArray = require('isarray');
+var extend = require('shallow-object-extend');
+var exists =  require('property-exists');
 
 var createTree = function(array, rootNodes, customID) {
   var tree = [];
 
-  for (var key in rootNodes) {
-    if (!exists(rootNodes, key)) {
+  for (var rootNode in rootNodes) {
+    if (!exists(rootNodes, rootNode)) {
       continue ;
     }
-    var parentNode = rootNodes[key];
-    var childNode = array[parentNode[customID]];
+    var node = rootNodes[rootNode];
+    var childNode = array[node[customID]];
 
     if (childNode) {
-      parentNode.children = createTree(array, childNode, customID);
+      node.children = createTree(array, childNode, customID);
     }
 
-    tree.push(parentNode);
+    tree.push(node);
   }
 
   return tree;
@@ -53,7 +41,7 @@ var groupByParents = function(array, options) {
 
 /**
  * arrayToTree
- * Convert a plain array of nodes (with pointers to parent nodes) to a tree
+ * Convert a plain array of nodes (with pointers to parent nodes) to a nested data structure
  *
  * @name arrayToTree
  * @function
