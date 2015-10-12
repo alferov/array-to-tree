@@ -1,5 +1,7 @@
 # array-to-tree [![Build Status](https://travis-ci.org/alferov/array-to-tree.svg?branch=master)](https://travis-ci.org/alferov/array-to-tree)
 
+![array-to-tree](media/array-to-tree.png)
+
 > Convert a plain array of nodes (with pointers to parent nodes) to a nested data structure.
 
 Solves a problem with conversion of retrieved from a database sets of data to a nested data structure (i.e. navigation tree).
