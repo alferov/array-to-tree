@@ -7,7 +7,7 @@
     "test": "mocha --reporter nyan",
     "tdd": "npm test -- --watch"
   },
-  "repository": "alferov/property-exists",
+  "repository": "alferov/array-to-tree",
   "keywords": [
     "array",
     "list",
