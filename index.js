@@ -45,25 +45,24 @@ var groupByParents = function(array, options) {
  *
  * @name arrayToTree
  * @function
+ *
+ * @param {Array} data An array of data
  * @param {Object} options An object containing the following fields:
  *
  *  - `parentProperty` (String): A name of a property where a link to
  *     a parent node could be found. Default: 'parent_id'
- *  - `data` (Array): An array of data
  *  - `customID` (String): An unique node identifier. Default: 'id'
  *
  * @return {Array} Result of transformation
  */
 
-module.exports = function arrayToTree(options) {
+module.exports = function arrayToTree(data, options) {
+  data = data || [];
   options = extend({
     parentProperty: 'parent_id',
-    data: [],
     customID: 'id',
     rootID: '0'
-  }, options);
-
-  var data = options.data;
+  }, options || {});
 
   if (!isArray(data)) {
     throw new Error('Expected an object but got an invalid argument');

@@ -12,7 +12,7 @@ describe('array-to-tree', function() {
   describe('with valid arguments', function() {
 
     beforeEach(function() {
-      current = toTree({ data: initial });
+      current = toTree(initial);
     });
 
     it('should not modify passed object', function() {
@@ -45,14 +45,14 @@ describe('array-to-tree', function() {
 
   describe('with invalid arguments', function() {
     it('should return an empty array if the empty array passed', function() {
-      expect(toTree({ data: [] })).to.be.deep.equal([]);
+      expect(toTree([])).to.be.deep.equal([]);
     });
 
     it('should throw an error if wrong arguments passed', function() {
-      expect(toTree.bind(null, { data: 'string' }))
+      expect(toTree.bind(null, 'string'))
         .to.throw(/invalid argument/);
 
-      expect(toTree.bind(null, { data: {} }))
+      expect(toTree.bind(null, {}))
         .to.throw(/invalid argument/);
     });
 
@@ -63,7 +63,7 @@ describe('array-to-tree', function() {
         return item;
       });
 
-      expect(toTree({ data: modified }))
+      expect(toTree(modified))
         .to.be.deep.equal(modified);
     });
   })
@@ -71,11 +71,9 @@ describe('array-to-tree', function() {
   describe('with different options', function() {
     it('should work with custom parents links', function() {
 
-      current = toTree({
-        data: customInitial,
-        parentProperty: 'parent',
-        customID: '_id'
-      });
+      current = toTree(
+        customInitial,
+        { parentProperty: 'parent', customID: '_id' });
 
       expect(current)
         .to.be.deep.equal(customExpected);
