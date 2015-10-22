@@ -71,9 +71,9 @@ describe('array-to-tree', function() {
   describe('with different options', function() {
     it('should work with custom parents links', function() {
 
-      current = toTree(
-        customInitial,
-        { parentProperty: 'parent', customID: '_id' });
+      current = toTree(customInitial, {
+        parentProperty: 'parent', customID: '_id'
+      });
 
       expect(current)
         .to.be.deep.equal(customExpected);

@@ -6,15 +6,15 @@
 
 Solves a problem with conversion of retrieved from a database sets of data to a nested data structure (i.e. navigation tree).
 
-## Install
+## Installation
 
 ```
-$ npm install --save array-to-tree
+$ npm install array-to-tree --save
 ```
 
 ## Usage
 
-### Basic
+### With Default Attributes
 
 ```js
 var arrayToTree = require('array-to-tree');
@@ -37,10 +37,11 @@ var data = [{
   parent_id: null
 }];
 
-var tree = arrayToTree({ data: data });
+arrayToTree(data);
 
 /*
  * Output:
+ *
  * Portfolio
  *   Web Development
  *     Recent Works
@@ -72,14 +73,14 @@ var data = [{
   parent: null
 }];
 
-var tree = arrayToTree({
+arrayToTree(data, {
   parentProperty: 'parent',
   customID: '_id'
-  data: data
 });
 
 /*
  * Output:
+ *
  * Portfolio
  *   Web Development
  *     Recent Works
@@ -93,10 +94,10 @@ var tree = arrayToTree({
 Convert a plain array of nodes (with pointers to parent nodes) to a a nested data structure.
 
 #### Params
-**Object** `options`: An object containing the following fields:
-- `parentProperty` (String): A name of a property where a link to a parent node could be found. Default: 'parent_id'
-- `data` (Array): An array of` data
-- `customID` (String): An unique node identifier. Default: 'id'
+- **Array** `data`: An array of data
+- **Object** `options`: An object containing the following fields:
+  - `parentProperty` (String): A name of a property where a link to a parent node could be found. Default: 'parent_id'
+  - `customID` (String): An unique node identifier. Default: 'id'
 
 #### Return
 - **Array**: Result of transformation
