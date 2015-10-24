@@ -1,17 +1,14 @@
 {
   "name": "array-to-tree",
-  "version": "0.0.0-semantically-released",
+  "version": "2.1.6",
   "description": "Convert a plain array of nodes (with pointers to parent nodes) to a tree",
   "main": "index.js",
   "scripts": {
+    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git push && git push --tags && npm publish",
     "test": "mocha --reporter nyan",
-    "tdd": "npm test -- --watch",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "tdd": "npm test -- --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alferov/array-to-tree.git"
-  },
+  "repository": "alferov/array-to-tree",
   "keywords": [
     "array",
     "list",
@@ -24,8 +21,7 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "eslint": "^1.4.1",
-    "mocha": "^2.3.0",
-    "semantic-release": "^4.3.5"
+    "mocha": "^2.3.0"
   },
   "author": {
     "name": "Philipp Alferov",
