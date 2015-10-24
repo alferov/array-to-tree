@@ -1,13 +1,16 @@
 {
   "name": "array-to-tree",
-  "version": "2.1.5",
   "description": "Convert a plain array of nodes (with pointers to parent nodes) to a tree",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter nyan",
-    "tdd": "npm test -- --watch"
+    "tdd": "npm test -- --watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "repository": "alferov/array-to-tree",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alferov/array-to-tree.git"
+  },
   "keywords": [
     "array",
     "list",
