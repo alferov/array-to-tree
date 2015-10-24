@@ -90,7 +90,7 @@ arrayToTree(data, {
 
 ## API
 
-### `arrayToTree(options)`
+### `arrayToTree(data, options)`
 Convert a plain array of nodes (with pointers to parent nodes) to a a nested data structure.
 
 #### Params
