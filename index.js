@@ -41,7 +41,8 @@ var groupByParents = function(array, options) {
 
 /**
  * arrayToTree
- * Convert a plain array of nodes (with pointers to parent nodes) to a nested data structure
+ * Convert a plain array of nodes (with pointers to parent nodes) to a nested
+ * data structure
  *
  * @name arrayToTree
  * @function
