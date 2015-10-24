@@ -1,5 +1,6 @@
 {
   "name": "array-to-tree",
+  "version": "0.0.0-semantically-released",
   "description": "Convert a plain array of nodes (with pointers to parent nodes) to a tree",
   "main": "index.js",
   "scripts": {
