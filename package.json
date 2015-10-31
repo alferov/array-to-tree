@@ -32,8 +32,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "extend": "^3.0.0",
     "isarray": "0.0.1",
-    "property-exists": "^1.0.1",
-    "shallow-object-extend": "0.0.1"
+    "property-exists": "^1.0.1"
   }
 }

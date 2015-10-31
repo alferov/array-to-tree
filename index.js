@@ -1,17 +1,18 @@
 'use strict';
 var isArray = require('isarray');
-var extend = require('shallow-object-extend');
-var exists =  require('property-exists');
+var extend = require('extend');
+var exists = require('property-exists');
 
 var createTree = function(array, rootNodes, customID) {
   var tree = [];
 
   for (var rootNode in rootNodes) {
-    if (!exists(rootNodes, rootNode)) {
-      continue ;
-    }
     var node = rootNodes[rootNode];
     var childNode = array[node[customID]];
+
+    if (!node && !exists(rootNodes, rootNode)) {
+      continue ;
+    }
 
     if (childNode) {
       node.children = createTree(array, childNode, customID);
@@ -25,15 +26,16 @@ var createTree = function(array, rootNodes, customID) {
 
 var groupByParents = function(array, options) {
   var parents = {};
-  var parentProperty = options.parentProperty;
 
   array.forEach(function(item) {
-    var parentID = item[parentProperty] || options.rootID;
-    if (exists(parents, parentID)) {
+    var parentID = item[options.parentProperty] || options.rootID;
+
+    if (parentID && exists(parents, parentID)) {
       parents[parentID].push(item);
-    } else {
-      parents[parentID] = [item];
+      return ;
     }
+
+    parents[parentID] = [item];
   });
 
   return parents;
@@ -63,10 +65,10 @@ module.exports = function arrayToTree(data, options) {
     parentProperty: 'parent_id',
     customID: 'id',
     rootID: '0'
-  }, options || {});
+  }, options);
 
   if (!isArray(data)) {
-    throw new Error('Expected an object but got an invalid argument');
+    throw new TypeError('Expected an object but got an invalid argument');
   }
 
   var cloned = data.slice();
