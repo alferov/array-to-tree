@@ -1,4 +1,5 @@
-# array-to-tree [![Build Status](https://travis-ci.org/alferov/array-to-tree.svg?branch=master)](https://travis-ci.org/alferov/array-to-tree)
+# array-to-tree
+[![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
 ![array-to-tree](media/array-to-tree.png)
 
@@ -13,16 +14,13 @@ $ npm install array-to-tree --save
 ```
 
 ## Usage
-
-### With Default Attributes
-
 ```js
 var arrayToTree = require('array-to-tree');
 
-var data = [{
+var dataOne = [{
   id: 1,
   name: "Portfolio",
-  parent_id: null
+  parent_id: undefined
 }, {
   id: 2,
   name: "Web Development",
@@ -34,10 +32,10 @@ var data = [{
 }, {
   id: 4,
   name: "About Me",
-  parent_id: null
+  parent_id: undefined
 }];
 
-arrayToTree(data);
+arrayToTree(dataOne);
 
 /*
  * Output:
@@ -48,14 +46,7 @@ arrayToTree(data);
  * About Me
  */
 
-```
-
-### With Custom Attributes
-
-```js
-var arrayToTree = require('array-to-tree');
-
-var data = [{
+var dataTwo = [{
   _id: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
   name: "Portfolio",
   parent: null
@@ -73,7 +64,7 @@ var data = [{
   parent: null
 }];
 
-arrayToTree(data, {
+arrayToTree(dataTwo, {
   parentProperty: 'parent',
   customID: '_id'
 });
@@ -89,11 +80,10 @@ arrayToTree(data, {
 ```
 
 ## API
-
-### `arrayToTree(data, options)`
+### `arrayToTree(data, [options])`
 Convert a plain array of nodes (with pointers to parent nodes) to a a nested data structure.
 
-#### Params
+#### Parameters
 - **Array** `data`: An array of data
 - **Object** `options`: An object containing the following fields:
   - `parentProperty` (String): A name of a property where a link to a parent node could be found. Default: 'parent_id'
@@ -105,3 +95,9 @@ Convert a plain array of nodes (with pointers to parent nodes) to a a nested dat
 ## License
 
 MIT © [Philipp Alferov](https://github.com/alferov)
+
+[travis-url]: https://travis-ci.org/alferov/array-to-tree
+[travis-image]: https://img.shields.io/travis/alferov/array-to-tree.svg?style=flat-square
+
+[depstat-url]: https://david-dm.org/alferov/array-to-tree
+[depstat-image]: https://david-dm.org/alferov/array-to-tree.svg?style=flat-square
