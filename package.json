@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --reporter nyan",
     "tdd": "npm test -- --watch",
-    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | jq -r .version)\" && git tag $(cat package.json | jq -r .version) && git push && git push --tags && npm publish"
+    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | json version)\" && git tag $(cat package.json | json version) && git push && git push --tags && npm publish"
   },
   "repository": "alferov/array-to-tree",
   "keywords": [
@@ -19,6 +19,7 @@
     "nested"
   ],
   "devDependencies": {
+    "json": "^9.0.3",
     "chai": "^3.2.0",
     "eslint": "^1.4.1",
     "mocha": "^2.3.0"
@@ -32,8 +33,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "extend": "^3.0.0",
-    "isarray": "0.0.1",
     "lodash.assign": "^4.0.6",
     "lodash.isarray": "^4.0.0"
   }
