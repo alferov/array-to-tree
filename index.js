@@ -24,20 +24,17 @@ var createTree = function(array, rootNodes, customID) {
 };
 
 var groupByParents = function(array, options) {
-  var parents = {};
-
-  array.forEach(function(item) {
+  return array.reduce(function(prev, item) {
     var parentID = item[options.parentProperty] || options.rootID;
 
-    if (parentID && parents.hasOwnProperty(parentID)) {
-      parents[parentID].push(item);
-      return ;
+    if (parentID && prev.hasOwnProperty(parentID)) {
+      prev[parentID].push(item);
+      return prev;
     }
 
-    parents[parentID] = [item];
-  });
-
-  return parents;
+    prev[parentID] = [item];
+    return prev;
+  }, {});
 };
 
 /**
@@ -59,7 +56,6 @@ var groupByParents = function(array, options) {
  */
 
 module.exports = function arrayToTree(data, options) {
-  data = data || [];
   options = assign({
     parentProperty: 'parent_id',
     customID: 'id',

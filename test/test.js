@@ -56,7 +56,7 @@ describe('array-to-tree', function() {
         .to.throw(/invalid argument/);
     });
 
-    it('should return the same array if there is no pointer to parent', function() {
+    it('returns the same array if there is no pointer to parent', function() {
 
       var modified = initial.map(function(item) {
         delete item.parent_id;
@@ -66,7 +66,7 @@ describe('array-to-tree', function() {
       expect(toTree(modified))
         .to.be.deep.equal(modified);
     });
-  })
+  });
 
   describe('with different options', function() {
     it('should work with custom parents links', function() {
