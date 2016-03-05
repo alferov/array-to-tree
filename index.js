@@ -1,7 +1,6 @@
 'use strict';
-var isArray = require('isarray');
-var extend = require('extend');
-var exists = require('property-exists');
+var isArray = require('lodash.isarray');
+var assign = require('lodash.assign');
 
 var createTree = function(array, rootNodes, customID) {
   var tree = [];
@@ -10,7 +9,7 @@ var createTree = function(array, rootNodes, customID) {
     var node = rootNodes[rootNode];
     var childNode = array[node[customID]];
 
-    if (!node && !exists(rootNodes, rootNode)) {
+    if (!node && !rootNodes.hasOwnProperty(rootNode)) {
       continue ;
     }
 
@@ -30,7 +29,7 @@ var groupByParents = function(array, options) {
   array.forEach(function(item) {
     var parentID = item[options.parentProperty] || options.rootID;
 
-    if (parentID && exists(parents, parentID)) {
+    if (parentID && parents.hasOwnProperty(parentID)) {
       parents[parentID].push(item);
       return ;
     }
@@ -61,7 +60,7 @@ var groupByParents = function(array, options) {
 
 module.exports = function arrayToTree(data, options) {
   data = data || [];
-  options = extend({
+  options = assign({
     parentProperty: 'parent_id',
     customID: 'id',
     rootID: '0'
