@@ -2,10 +2,13 @@
 var chai = require('chai');
 var expect = chai.expect;
 var toTree = require('../index.js');
+var initial = require('./fixtures/initial.fixture.js');
 var expected = require('./fixtures/expected.fixture.js');
 var customExpected = require('./fixtures/expected-custom.fixture.js');
 var customInitial = require('./fixtures/initial-custom.fixture.js');
-var initial = require('./fixtures/initial.fixture.js');
+var nestedInitial = require('./fixtures/initial-nested.fixture.js');
+var nestedExpected = require('./fixtures/expected-nested.fixture.js');
+
 var current;
 
 describe('array-to-tree', function() {
@@ -77,6 +80,14 @@ describe('array-to-tree', function() {
 
       expect(current)
         .to.be.deep.equal(customExpected);
+    });
+    it('should work with nested parent id', function() {
+      current = toTree(nestedInitial, {
+        parentProperty: 'attributes.parent_id'
+      });
+
+      expect(current)
+        .to.be.deep.equal(nestedExpected);
     });
   });
 });
