@@ -15,7 +15,7 @@ var createTree = function(array, rootNodes, customID, childrenProperty) {
     }
 
     if (childNode) {
-      node[childrenProperty] = createTree(array, childNode, customID);
+      node[childrenProperty] = createTree(array, childNode, customID, childrenProperty);
     }
 
     tree.push(node);
