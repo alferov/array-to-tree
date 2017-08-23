@@ -8,6 +8,8 @@ var customExpected = require('./fixtures/expected-custom.fixture.js');
 var customInitial = require('./fixtures/initial-custom.fixture.js');
 var nestedInitial = require('./fixtures/initial-nested.fixture.js');
 var nestedExpected = require('./fixtures/expected-nested.fixture.js');
+var orphanInitial = require('./fixtures/initial-orphan.fixture.js');
+var orphanExpected = require('./fixtures/expected-orphan.fixture.js');
 
 var current;
 
@@ -88,6 +90,12 @@ describe('array-to-tree', function() {
 
       expect(current)
         .to.be.deep.equal(nestedExpected);
+    });
+    it('should work with orphan nodes', function() {
+      current = toTree(orphanInitial);
+
+      expect(current)
+        .to.be.deep.equal(orphanExpected);
     });
   });
 });
