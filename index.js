@@ -30,7 +30,7 @@ var groupByParents = function(array, options) {
 
   return array.reduce(function(prev, item) {
     var parentID = property.get(item, options.parentProperty);
-    if (!parentID || !(parentID in arrayByID)) {
+    if (!parentID || !arrayByID.hasOwnProperty(parentID)) {
       parentID = options.rootID;
     }
 
