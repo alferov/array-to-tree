@@ -2,6 +2,7 @@
 var isArray = require('lodash.isarray');
 var assign = require('lodash.assign');
 var property = require('nested-property');
+var keyBy = require('lodash.keyby');
 
 var createTree = function(array, rootNodes, customID) {
   var tree = [];
@@ -25,8 +26,13 @@ var createTree = function(array, rootNodes, customID) {
 };
 
 var groupByParents = function(array, options) {
+  var arrayByID = keyBy(array, options.customID);
+
   return array.reduce(function(prev, item) {
-    var parentID = property.get(item, options.parentProperty) || options.rootID;
+    var parentID = property.get(item, options.parentProperty);
+    if (!parentID || !arrayByID.hasOwnProperty(parentID)) {
+      parentID = options.rootID;
+    }
 
     if (parentID && prev.hasOwnProperty(parentID)) {
       prev[parentID].push(item);
