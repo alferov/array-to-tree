@@ -1,5 +1,4 @@
 'use strict';
-var isArray = require('lodash.isarray');
 var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
@@ -69,7 +68,13 @@ module.exports = function arrayToTree(data, options) {
     rootID: '0'
   }, options);
 
-  if (!isArray(data)) {
+  if (!Array.isArray) {
+    Array.isArray = function(arg) {
+      return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+  }
+  
+  if (!Array.isArray(data)) {
     throw new TypeError('Expected an object but got an invalid argument');
   }
 
