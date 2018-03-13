@@ -1,8 +1,10 @@
 'use strict';
-var isArray = require('lodash.isarray');
-var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
+
+var isArray = Array.isArray || function (arg) {
+	return Object.prototype.toString.call(arg) === '[object Array]';
+};
 
 var createTree = function (array, rootNodes, customID, childrenProperty) {
 	var tree = [];
@@ -63,7 +65,7 @@ var groupByParents = function (array, options) {
  */
 
 module.exports = function arrayToTree(data, options) {
-	options = assign({
+	options = Object.assign({
 		childrenProperty: 'children',
 		parentProperty: 'parent_id',
 		customID: 'id',
