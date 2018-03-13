@@ -1,6 +1,6 @@
 export = arrayToTree;
 
-declare function arrayToTree<T>(data: T[], options?: Partial<arrayToTree.Options>): arrayToTree.Tree<T>;
+declare function arrayToTree<T>(data: T[], options?: Partial<arrayToTree.Options>): Array<arrayToTree.Tree<T>>;
 
 declare namespace arrayToTree {
 	interface Options {
