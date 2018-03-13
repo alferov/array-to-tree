@@ -4,6 +4,7 @@ declare function arrayToTree<T>(data: T[], options?: Partial<arrayToTree.Options
 
 declare namespace arrayToTree {
 	interface Options {
+		childrenProperty: string;
 		parentProperty: string;
 		customID: string;
 		rootID: string;

@@ -4,44 +4,44 @@ var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
 
-var createTree = function(array, rootNodes, customID) {
-  var tree = [];
+var createTree = function (array, rootNodes, customID, childrenProperty) {
+	var tree = [];
 
-  for (var rootNode in rootNodes) {
-    var node = rootNodes[rootNode];
-    var childNode = array[node[customID]];
+	for (var rootNode in rootNodes) {
+		var node = rootNodes[rootNode];
+		var childNode = array[node[customID]];
 
-    if (!node && !rootNodes.hasOwnProperty(rootNode)) {
-      continue ;
-    }
+		if (!node && !rootNodes.hasOwnProperty(rootNode)) {
+			continue;
+		}
 
-    if (childNode) {
-      node.children = createTree(array, childNode, customID);
-    }
+		if (childNode) {
+			node[childrenProperty] = createTree(array, childNode, customID, childrenProperty);
+		}
 
-    tree.push(node);
-  }
+		tree.push(node);
+	}
 
-  return tree;
+	return tree;
 };
 
-var groupByParents = function(array, options) {
-  var arrayByID = keyBy(array, options.customID);
+var groupByParents = function (array, options) {
+	var arrayByID = keyBy(array, options.customID);
 
-  return array.reduce(function(prev, item) {
-    var parentID = property.get(item, options.parentProperty);
-    if (!parentID || !arrayByID.hasOwnProperty(parentID)) {
-      parentID = options.rootID;
-    }
+	return array.reduce(function (prev, item) {
+		var parentID = property.get(item, options.parentProperty);
+		if (!parentID || !arrayByID.hasOwnProperty(parentID)) {
+			parentID = options.rootID;
+		}
 
-    if (parentID && prev.hasOwnProperty(parentID)) {
-      prev[parentID].push(item);
-      return prev;
-    }
+		if (parentID && prev.hasOwnProperty(parentID)) {
+			prev[parentID].push(item);
+			return prev;
+		}
 
-    prev[parentID] = [item];
-    return prev;
-  }, {});
+		prev[parentID] = [item];
+		return prev;
+	}, {});
 };
 
 /**
@@ -63,16 +63,17 @@ var groupByParents = function(array, options) {
  */
 
 module.exports = function arrayToTree(data, options) {
-  options = assign({
-    parentProperty: 'parent_id',
-    customID: 'id',
-    rootID: '0'
-  }, options);
+	options = assign({
+		childrenProperty: 'children',
+		parentProperty: 'parent_id',
+		customID: 'id',
+		rootID: '0'
+	}, options);
 
-  if (!isArray(data)) {
-    throw new TypeError('Expected an object but got an invalid argument');
-  }
+	if (!isArray(data)) {
+		throw new TypeError('Expected an object but got an invalid argument');
+	}
 
-  var grouped = groupByParents(data, options);
-  return createTree(grouped, grouped[options.rootID], options.customID);
+	var grouped = groupByParents(data, options);
+	return createTree(grouped, grouped[options.rootID], options.customID, options.childrenProperty);
 };
