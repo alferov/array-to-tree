@@ -58,7 +58,7 @@ var groupByParents = function(array, options) {
  *  - `parentProperty` (String): A name of a property where a link to
  *     a parent node could be found. Default: 'parent_id'
  *  - `customID` (String): An unique node identifier. Default: 'id'
- *  - `customChildren` (String): A children identifier. Default: 'children'
+ *  - `childrenID` (String): A children identifier. Default: 'children'
  *
  * @return {Array} Result of transformation
  */
