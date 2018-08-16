@@ -3,7 +3,7 @@ var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
 
-var createTree = function(array, rootNodes, customID) {
+var createTree = function(array, rootNodes, customID, childrenProperty) {
   var tree = [];
 
   for (var rootNode in rootNodes) {
@@ -15,7 +15,12 @@ var createTree = function(array, rootNodes, customID) {
     }
 
     if (childNode) {
-      node.children = createTree(array, childNode, customID);
+      node[childrenProperty] = createTree(
+        array,
+        childNode,
+        customID,
+        childrenProperty
+      );
     }
 
     tree.push(node);
@@ -55,8 +60,10 @@ var groupByParents = function(array, options) {
  * @param {Object} options An object containing the following fields:
  *
  *  - `parentProperty` (String): A name of a property where a link to
- *     a parent node could be found. Default: 'parent_id'
+ *    a parent node could be found. Default: 'parent_id'
  *  - `customID` (String): An unique node identifier. Default: 'id'
+ *  - `childrenProperty` (String): A name of a property where chilren nodes
+ *    are going to be stored. Default: 'children'.
  *
  * @return {Array} Result of transformation
  */
@@ -65,6 +72,7 @@ module.exports = function arrayToTree(data, options) {
   options = assign(
     {
       parentProperty: 'parent_id',
+      childrenProperty: 'children',
       customID: 'id',
       rootID: '0'
     },
@@ -76,5 +84,10 @@ module.exports = function arrayToTree(data, options) {
   }
 
   var grouped = groupByParents(data, options);
-  return createTree(grouped, grouped[options.rootID], options.customID);
+  return createTree(
+    grouped,
+    grouped[options.rootID],
+    options.customID,
+    options.childrenProperty
+  );
 };

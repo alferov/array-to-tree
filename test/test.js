@@ -120,18 +120,19 @@ describe('array-to-tree', function() {
           ],
           {
             parentProperty: 'parent',
-            customID: '_id'
+            customID: '_id',
+            childrenProperty: '_children'
           }
         )
       ).to.be.deep.equal([
         {
           _id: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
           parent: null,
-          children: [
+          _children: [
             {
               _id: 'ec666030-7f8f-11e3-ae96-0123456789ab',
               parent: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
-              children: [
+              _children: [
                 {
                   _id: 'ec66fc70-7f8f-11e3-ae96-000000000000',
                   parent: 'ec666030-7f8f-11e3-ae96-0123456789ab'
