@@ -2,20 +2,30 @@
 var chai = require('chai');
 var expect = chai.expect;
 var toTree = require('../index.js');
-var initial = require('./fixtures/initial.fixture.js');
-var expected = require('./fixtures/expected.fixture.js');
-var customExpected = require('./fixtures/expected-custom.fixture.js');
-var customInitial = require('./fixtures/initial-custom.fixture.js');
-var nestedInitial = require('./fixtures/initial-nested.fixture.js');
-var nestedExpected = require('./fixtures/expected-nested.fixture.js');
-var orphanInitial = require('./fixtures/initial-orphan.fixture.js');
-var orphanExpected = require('./fixtures/expected-orphan.fixture.js');
+
+var initial = [
+  {
+    id: 1,
+    parent_id: null
+  },
+  {
+    id: 2,
+    parent_id: 1
+  },
+  {
+    id: 3,
+    parent_id: 2
+  },
+  {
+    id: 4,
+    parent_id: null
+  }
+];
 
 var current;
 
 describe('array-to-tree', function() {
   describe('with valid arguments', function() {
-
     beforeEach(function() {
       current = toTree(initial);
     });
@@ -30,13 +40,11 @@ describe('array-to-tree', function() {
 
     it('should keep parent_id property', function() {
       var first = current[0];
-
       expect(first).to.have.property('parent_id');
     });
 
     it('should create nested objects with children', function() {
       var first = current[0];
-
       expect(first)
         .to.have.property('children')
         .that.is.an('array')
@@ -44,7 +52,28 @@ describe('array-to-tree', function() {
     });
 
     it('should return an expected value', function() {
-      expect(current).to.be.deep.equal(expected);
+      expect(current).to.be.deep.equal([
+        {
+          id: 1,
+          parent_id: null,
+          children: [
+            {
+              id: 2,
+              parent_id: 1,
+              children: [
+                {
+                  id: 3,
+                  parent_id: 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 4,
+          parent_id: null
+        }
+      ]);
     });
   });
 
@@ -54,48 +83,169 @@ describe('array-to-tree', function() {
     });
 
     it('should throw an error if wrong arguments passed', function() {
-      expect(toTree.bind(null, 'string'))
-        .to.throw(/invalid argument/);
-
-      expect(toTree.bind(null, {}))
-        .to.throw(/invalid argument/);
+      expect(toTree.bind(null, 'string')).to.throw(/invalid argument/);
+      expect(toTree.bind(null, {})).to.throw(/invalid argument/);
     });
 
     it('returns the same array if there is no pointer to parent', function() {
-
       var modified = initial.map(function(item) {
         delete item.parent_id;
         return item;
       });
-
-      expect(toTree(modified))
-        .to.be.deep.equal(modified);
+      expect(toTree(modified)).to.be.deep.equal(modified);
     });
   });
 
   describe('with different options', function() {
     it('should work with custom parents links', function() {
-
-      current = toTree(customInitial, {
-        parentProperty: 'parent', customID: '_id'
-      });
-
-      expect(current)
-        .to.be.deep.equal(customExpected);
+      expect(
+        toTree(
+          [
+            {
+              _id: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
+              parent: null
+            },
+            {
+              _id: 'ec666030-7f8f-11e3-ae96-0123456789ab',
+              parent: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c'
+            },
+            {
+              _id: 'ec66fc70-7f8f-11e3-ae96-000000000000',
+              parent: 'ec666030-7f8f-11e3-ae96-0123456789ab'
+            },
+            {
+              _id: '32a4fbed-676d-47f9-a321-cb2f267e2918',
+              parent: null
+            }
+          ],
+          {
+            parentProperty: 'parent',
+            customID: '_id'
+          }
+        )
+      ).to.be.deep.equal([
+        {
+          _id: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
+          parent: null,
+          children: [
+            {
+              _id: 'ec666030-7f8f-11e3-ae96-0123456789ab',
+              parent: 'ec654ec1-7f8f-11e3-ae96-b385f4bc450c',
+              children: [
+                {
+                  _id: 'ec66fc70-7f8f-11e3-ae96-000000000000',
+                  parent: 'ec666030-7f8f-11e3-ae96-0123456789ab'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          _id: '32a4fbed-676d-47f9-a321-cb2f267e2918',
+          parent: null
+        }
+      ]);
     });
+
     it('should work with nested parent id', function() {
-      current = toTree(nestedInitial, {
-        parentProperty: 'attributes.parent_id'
-      });
-
-      expect(current)
-        .to.be.deep.equal(nestedExpected);
+      expect(
+        toTree(
+          [
+            {
+              id: 1,
+              attributes: {
+                name: 'Parent',
+                parent_id: null
+              }
+            },
+            {
+              id: 2,
+              attributes: {
+                name: 'Child One',
+                parent_id: 1
+              }
+            },
+            {
+              id: 3,
+              attributes: {
+                name: 'Child Two',
+                parent_id: 1
+              }
+            }
+          ],
+          {
+            parentProperty: 'attributes.parent_id'
+          }
+        )
+      ).to.be.deep.equal([
+        {
+          id: 1,
+          attributes: {
+            name: 'Parent',
+            parent_id: null
+          },
+          children: [
+            {
+              id: 2,
+              attributes: {
+                name: 'Child One',
+                parent_id: 1
+              }
+            },
+            {
+              id: 3,
+              attributes: {
+                name: 'Child Two',
+                parent_id: 1
+              }
+            }
+          ]
+        }
+      ]);
     });
-    it('should work with orphan nodes', function() {
-      current = toTree(orphanInitial);
 
-      expect(current)
-        .to.be.deep.equal(orphanExpected);
+    it('should work with orphan nodes', function() {
+      expect(
+        toTree([
+          {
+            id: 1,
+            parent_id: null
+          },
+          {
+            id: 2,
+            parent_id: 1
+          },
+          {
+            id: 3,
+            parent_id: 2
+          },
+          {
+            id: 4,
+            parent_id: 5
+          }
+        ])
+      ).to.be.deep.equal([
+        {
+          id: 1,
+          parent_id: null,
+          children: [
+            {
+              id: 2,
+              parent_id: 1,
+              children: [
+                {
+                  id: 3,
+                  parent_id: 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 4,
+          parent_id: 5
+        }
+      ]);
     });
   });
 });
