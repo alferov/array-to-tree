@@ -1,5 +1,4 @@
 'use strict';
-var isArray = require('lodash.isarray');
 var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
@@ -12,7 +11,7 @@ var createTree = function(array, rootNodes, customID) {
     var childNode = array[node[customID]];
 
     if (!node && !rootNodes.hasOwnProperty(rootNode)) {
-      continue ;
+      continue;
     }
 
     if (childNode) {
@@ -63,13 +62,16 @@ var groupByParents = function(array, options) {
  */
 
 module.exports = function arrayToTree(data, options) {
-  options = assign({
-    parentProperty: 'parent_id',
-    customID: 'id',
-    rootID: '0'
-  }, options);
+  options = assign(
+    {
+      parentProperty: 'parent_id',
+      customID: 'id',
+      rootID: '0'
+    },
+    options
+  );
 
-  if (!isArray(data)) {
+  if (!Array.isArray(data)) {
     throw new TypeError('Expected an object but got an invalid argument');
   }
 
