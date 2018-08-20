@@ -83,7 +83,7 @@ module.exports = function arrayToTree(data, options) {
     throw new TypeError('Expected an object but got an invalid argument');
   }
 
-  var grouped = groupByParents(data, options);
+  var grouped = groupByParents(data.slice(), options);
   return createTree(
     grouped,
     grouped[options.rootID],
