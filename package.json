@@ -29,7 +29,7 @@
     "email": "philipp.alferov@gmail.com"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "license": "MIT",
   "dependencies": {
