@@ -60,10 +60,10 @@ var groupByParents = function(array, options) {
  * @param {Object} options An object containing the following fields:
  *
  *  - `parentProperty` (String): A name of a property where a link to
- *    a parent node could be found. Default: 'parent_id'
+ * a parent node could be found. Default: 'parent_id'
  *  - `customID` (String): An unique node identifier. Default: 'id'
- *  - `childrenProperty` (String): A name of a property where chilren nodes
- *    are going to be stored. Default: 'children'.
+ *  - `childrenProperty` (String): A name of a property where children nodes
+ * are going to be stored. Default: 'children'.
  *
  * @return {Array} Result of transformation
  */
