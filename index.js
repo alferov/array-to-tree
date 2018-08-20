@@ -1,5 +1,4 @@
 'use strict';
-var assign = require('lodash.assign');
 var property = require('nested-property');
 var keyBy = require('lodash.keyby');
 
@@ -69,7 +68,7 @@ var groupByParents = function(array, options) {
  */
 
 module.exports = function arrayToTree(data, options) {
-  options = assign(
+  options = Object.assign(
     {
       parentProperty: 'parent_id',
       childrenProperty: 'children',
