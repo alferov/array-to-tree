@@ -47,6 +47,23 @@ const groupByParents = (array, options) => {
 	}, {});
 };
 
+function isObject(o) {
+	return Object.prototype.toString.call(o) === "[object Object]";
+};
+
+function deepClone(data) {
+	if (Array.isArray(data)) {
+		return data.map(deepClone);
+	} else if (isObject(data)) {
+		return Object.keys(data).reduce(function (o, k) {
+			o[k] = deepClone(data[k]);
+			return o;
+		}, {});
+	} else {
+		return data;
+	}
+}
+
 /**
  * arrayToTree
  * Convert a plain array of nodes (with pointers to parent nodes) to a nested
@@ -82,7 +99,7 @@ module.exports = function arrayToTree(data, options) {
 		throw new TypeError('Expected an object but got an invalid argument');
 	}
 
-	const grouped = groupByParents(data.slice(), options);
+	const grouped = groupByParents(deepClone(data), options);
 	return createTree(
 		grouped,
 		grouped[options.rootID],
