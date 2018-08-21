@@ -1,13 +1,13 @@
 'use strict';
-const property = require('nested-property');
-const keyBy = require('lodash.keyby');
+var property = require('nested-property');
+var keyBy = require('lodash.keyby');
 
-const createTree = (array, rootNodes, customID, childrenProperty) => {
-  const tree = [];
+var createTree = function(array, rootNodes, customID, childrenProperty) {
+  var tree = [];
 
-  for (const rootNode in rootNodes) {
-    const node = rootNodes[rootNode];
-    const childNode = array[node[customID]];
+  for (var rootNode in rootNodes) {
+    var node = rootNodes[rootNode];
+    var childNode = array[node[customID]];
 
     if (!node && !rootNodes.hasOwnProperty(rootNode)) {
       continue;
@@ -28,11 +28,11 @@ const createTree = (array, rootNodes, customID, childrenProperty) => {
   return tree;
 };
 
-const groupByParents = (array, options) => {
-  const arrayByID = keyBy(array, options.customID);
+var groupByParents = function(array, options) {
+  var arrayByID = keyBy(array, options.customID);
 
-  return array.reduce((prev, item) => {
-    let parentID = property.get(item, options.parentProperty);
+  return array.reduce(function(prev, item) {
+    var parentID = property.get(item, options.parentProperty);
     if (!parentID || !arrayByID.hasOwnProperty(parentID)) {
       parentID = options.rootID;
     }
@@ -82,7 +82,7 @@ module.exports = function arrayToTree(data, options) {
     throw new TypeError('Expected an object but got an invalid argument');
   }
 
-  const grouped = groupByParents(data.slice(), options);
+  var grouped = groupByParents(data.slice(), options);
   return createTree(
     grouped,
     grouped[options.rootID],
