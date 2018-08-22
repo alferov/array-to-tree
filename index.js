@@ -1,13 +1,13 @@
 'use strict';
-const property = require('nested-property');
-const keyBy = require('lodash.keyby');
+var property = require('nested-property');
+var keyBy = require('lodash.keyby');
 
-const createTree = (array, rootNodes, customID, childrenProperty) => {
-	const tree = [];
+var createTree = (array, rootNodes, customID, childrenProperty) => {
+	var tree = [];
 
-	for (const rootNode in rootNodes) {
-		const node = rootNodes[rootNode];
-		const childNode = array[node[customID]];
+	for (var rootNode in rootNodes) {
+		var node = rootNodes[rootNode];
+		var childNode = array[node[customID]];
 
 		if (!node && !rootNodes.hasOwnProperty(rootNode)) {
 			continue;
@@ -28,8 +28,8 @@ const createTree = (array, rootNodes, customID, childrenProperty) => {
 	return tree;
 };
 
-const groupByParents = (array, options) => {
-	const arrayByID = keyBy(array, options.customID);
+var groupByParents = (array, options) => {
+	var arrayByID = keyBy(array, options.customID);
 
 	return array.reduce((prev, item) => {
 		let parentID = property.get(item, options.parentProperty);
@@ -49,7 +49,7 @@ const groupByParents = (array, options) => {
 
 function isObject(o) {
 	return Object.prototype.toString.call(o) === "[object Object]";
-};
+}
 
 function deepClone(data) {
 	if (Array.isArray(data)) {
@@ -99,7 +99,7 @@ module.exports = function arrayToTree(data, options) {
 		throw new TypeError('Expected an object but got an invalid argument');
 	}
 
-	const grouped = groupByParents(deepClone(data), options);
+	var grouped = groupByParents(deepClone(data), options);
 	return createTree(
 		grouped,
 		grouped[options.rootID],
