@@ -96,7 +96,7 @@ module.exports = function arrayToTree(data, options) {
   );
 
   if (!Array.isArray(data)) {
-    throw new TypeError('Expected an object but got an invalid argument');
+    throw new TypeError('Expected an array but got an invalid argument');
   }
 
   var grouped = groupByParents(deepClone(data), options);
