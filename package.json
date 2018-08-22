@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha --reporter nyan",
     "tdd": "npm test -- --watch",
-    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json && git commit -m \":octocat: Bump to $(cat package.json | json version)\" && git tag $(cat package.json | json version) && git push && git push --tags && npm publish"
+    "release": "npm version ${BUMP:-\"patch\"} --no-git-tag-version && git add package.json package-lock.json && git commit -m \":octocat: Bump to $(cat package.json | json version)\" && git tag $(cat package.json | json version)",
+    "release:major": "BUMP=major npm run release",
+    "release:minor": "BUMP=minor npm run release"
   },
   "repository": "alferov/array-to-tree",
   "keywords": [
