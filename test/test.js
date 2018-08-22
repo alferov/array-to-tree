@@ -6,7 +6,8 @@ var toTree = require('../index.js');
 var initial = [
   {
     id: 1,
-    parent_id: null
+    parent_id: null,
+    children: [{ id: 5 }]
   },
   {
     id: 2,
@@ -25,13 +26,17 @@ var initial = [
 var current;
 
 describe('array-to-tree', function() {
-  describe('with valid arguments', function() {
+  describe('with default arguments', function() {
     beforeEach(function() {
       current = toTree(initial);
     });
 
-    it('should not modify passed object', function() {
-      expect(initial).to.be.deep.equal(initial);
+    it('should not modify given array', function() {
+      expect(initial[0]).to.be.deep.equal({
+        id: 1,
+        parent_id: null,
+        children: [{ id: 5 }]
+      });
     });
 
     it('should return an array', function() {
@@ -96,7 +101,7 @@ describe('array-to-tree', function() {
     });
   });
 
-  describe('with different options', function() {
+  describe('with custom arguments', function() {
     it('should work with custom parents links', function() {
       expect(
         toTree(
