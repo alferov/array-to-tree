@@ -9,7 +9,7 @@ function createTree(array, rootNodes, customID, childrenProperty) {
     var node = rootNodes[rootNode];
     var childNode = array[node[customID]];
 
-    if (!node && !rootNodes.hasOwnProperty(rootNode)) {
+    if (!node || !rootNodes.hasOwnProperty(rootNode)) {
       continue;
     }
 
